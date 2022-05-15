@@ -1,0 +1,25 @@
+﻿<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <h3>@ViewBag.PageTitle</h3>
+
+
+
+    <div>
+        SongID : @ViewBag.Song.SongID
+    </div>
+    <div>
+        SongName : @ViewBag.Song.SongTitle
+    </div>
+   <div>
+        ReleaseDate : @ViewBag.Song.ReleaseDate
+    </div>
+    <div>
+        <a href="~/Views/Home/SongList/@ViewBag.Song.SongID">View</a>
+        <a href="#">Edit</a>
+        <a href="#">Delete</a>
+    </div>
+</body>
+</html>

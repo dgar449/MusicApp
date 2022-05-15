@@ -1,0 +1,18 @@
+﻿@using MusicApp.Controllers;
+@model Song
+
+@{
+    ViewBag.Title = "Add Song"; 
+}
+<form asp-controller="Home" asp-action="Create" method="post">
+    
+    <label asp-for=SongTitle></label>
+    <input asp-for=SongTitle />
+
+    <label asp-for=ReleaseDate></label>
+    <input asp-for=ReleaseDate />
+    <div>
+        <button type="submit">Create</button>
+    </div>
+    
+</form>
