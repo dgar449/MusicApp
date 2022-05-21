@@ -2,12 +2,17 @@
 
 namespace MusicApp.Models
 {
-    public class DbSongRepo : ISongRepo
+    public class DbSongRepo 
     {
         private readonly AppDbContext context;
         public DbSongRepo(AppDbContext context)
         {
             this.context = context;
+        }
+
+       /* public bool Delete(int id)
+        {
+            throw new NotImplementedException();
         }
 
         Song ISongRepo.Add(Song song)
@@ -44,6 +49,6 @@ namespace MusicApp.Models
             song.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
             return songUpdates;
-        }
+        }*/
     }
 }

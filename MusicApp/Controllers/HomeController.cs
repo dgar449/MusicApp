@@ -18,13 +18,21 @@ namespace MusicApp.Controllers
             var model=_songRepo.GetAllSongs();
             return View(model); 
         }
-
+       /* [HttpGet]
+        public ViewResult SongList()
+        {
+            Song model = _songRepo.GetSongs(1);
+            ViewBag.Song = model;
+            ViewBag.PageTitle = "Song List";
+            return View(); 
+        }*/
+        //[Route("Home/SongList/{id?}")]
         public ViewResult SongList(int id)
         {
             Song model = _songRepo.GetSongs(id);
             ViewBag.Song = model;
             ViewBag.PageTitle = "Song List";
-            return View(); 
+            return View(model);
         }
         [HttpGet]
         public ViewResult Create()
@@ -36,6 +44,23 @@ namespace MusicApp.Controllers
         {
             Song newSong = _songRepo.Add(song);
             return RedirectToAction("SongList", new {id =newSong.SongID});
+        }
+        public ViewResult Edit(int id)
+        {
+            Song model = _songRepo.GetSongs(id);
+            ViewBag.Song = model;
+            ViewBag.PageTitle = "Edit Song Details";
+            return View(model);
+        }
+        public RedirectToActionResult Delete(int id)
+        {
+            var model = _songRepo.Delete(id);
+            return RedirectToAction("Index");
+        }
+        public RedirectToActionResult Update(int id,string st,string rd)
+        {
+            var model = _songRepo.Update(id,st,rd);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

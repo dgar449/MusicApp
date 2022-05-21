@@ -80,39 +80,70 @@ namespace MusicApp.Models
         {
             bool del = false;
             /* =_songList.FirstOrDefault(s => s.SongID == id)*/
-            /*if (song != null)
+            
+
+            if (GetSongs(id)!=null)
             {
-                _songList.Remove(song); 
-            }*/
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "(LocalDB)\\TestDB";
-            builder.InitialCatalog = "Music";
-            builder.IntegratedSecurity = true;
-            SqlConnection con = new SqlConnection(builder.ConnectionString);
-            try
-            {
-                SqlCommand cmd = new SqlCommand("delete from Song where SongID="+id, con);
-                con.Open();
-                cmd.ExecuteNonQuery();
-                if (GetSongs(id) == null)
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "(LocalDB)\\TestDB";
+                builder.InitialCatalog = "Music";
+                builder.IntegratedSecurity = true;
+                SqlConnection con = new SqlConnection(builder.ConnectionString);
+                try
                 {
-                    del= true;
+                    SqlCommand cmd = new SqlCommand("delete from Song where SongID=" + id, con);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    if (GetSongs(id) == null)
+                    {
+                        del = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
                 }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                con.Close();
-            }
-
             return del;
         }
-        public Song Update(Song songUpdates)
+        public bool Update(int id, string st, string release)
         {
-            return songUpdates;
+            bool updt = false;
+            Song song=null;
+            /* =_songList.FirstOrDefault(s => s.SongID == id)*/
+            _songList = (List<Song>)GetAllSongs();
+
+
+            if (_songList.Exists(s => s.SongID == id))
+            {
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "(LocalDB)\\TestDB";
+                builder.InitialCatalog = "Music";
+                builder.IntegratedSecurity = true;
+                SqlConnection con = new SqlConnection(builder.ConnectionString);
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("update Song SET SongTitle='"+st+ "' ,ReleaseDate='"+release+ "' where SongID="+id, con);
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    song = GetSongs(id);
+                    updt = true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+            return updt;
         }
 
         public Song GetSongs(int Id)

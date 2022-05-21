@@ -28,6 +28,10 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=SongList}/{id=1}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//app.MapControllerRoute(
+//    name: "songList",
+//    pattern: "{controller=Home}/{action=SongList}/{id}");
 
 app.Run();

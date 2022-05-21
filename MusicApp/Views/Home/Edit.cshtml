@@ -1,0 +1,31 @@
+﻿@using MusicApp.Controllers;
+@using System.Web;
+@model Song
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <h3>@ViewBag.PageTitle</h3>
+    <div>
+        SongID : @ViewBag.Song.SongID
+    </div>
+    <div>
+        SongName : @ViewBag.Song.SongTitle
+    </div>
+   <div>
+        ReleaseDate : @ViewBag.Song.ReleaseDate
+    </div>
+   <form asp-controller="Home" asp-action="Edit" method="post">
+    
+    <label asp-for=SongTitle></label>
+    <input asp-for=SongTitle name="st" />
+
+    <label asp-for=ReleaseDate></label>
+    <input asp-for=ReleaseDate name="rd" />
+    <div>
+        <button type="submit" asp-action="Update" asp-route-id="@ViewBag.Song.SongID" asp-route-st="@ViewData["st"]" asp-route-rd="@ViewData["rd"]">Update Song Details</button>
+    </div>
+    </form>
+</body>
+</html>

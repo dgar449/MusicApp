@@ -7,7 +7,7 @@ namespace MusicApp.Models
         IEnumerable<Song> GetAllSongs();
         Song GetSongs(int Id);
         Song Add(Song song);
-        Song Update(Song songUpdates);
+        bool Update(int id, string s, string r);
         bool Delete(int id);
     }
 }

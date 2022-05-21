@@ -1,2 +1,22 @@
-﻿@{
+﻿@using MusicApp.Controllers;
+@model IEnumerable<Song>;
+
+@{ 
+    ViewBag.Title = "All Songs";
+   
 }
+    
+    <div>
+        @foreach (var song in Model)
+        {           
+                <div >
+                    <h3>@song.SongTitle</h3>
+                </div>
+                <img class="album-art" src="~/images/coldplay.png" max-width="50px" height="auto" />
+                <div>
+                    @Html.ActionLink("View","SongList",new { id = song.SongID })
+                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@song.SongID">Edit</a>
+                    <a asp-controller="Home" asp-action="Delete" asp-route-id="@song.SongID">Delete</a>
+                </div>
+        }
+        </div>
