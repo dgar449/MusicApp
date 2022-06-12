@@ -6,7 +6,7 @@ using MusicApp.Controllers;
 
 namespace MusicApp.Models
 {
-    public class SongRepo : ISongRepo
+    public class SongRepo
     {
         public List<Song> _songList = new List<Song>();   
         public IEnumerable<Song> GetAllSongs()
@@ -15,31 +15,30 @@ namespace MusicApp.Models
             builder.DataSource = "(LocalDB)\\TestDB";
             builder.InitialCatalog = "Music";
             builder.IntegratedSecurity = true;
-            SqlConnection con = new SqlConnection(builder.ConnectionString);
-            try
+            using (SqlConnection con = new SqlConnection(builder.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT SongID,SongTitle,ReleaseDate FROM Song", con);
-                cmd.CommandType = CommandType.Text;
-                con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
+                try
                 {
-                    _songList.Add(new Song
+                    SqlCommand cmd = new SqlCommand("SELECT SongID,SongTitle,ReleaseDate FROM Song", con);
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        SongID = rdr.GetInt32("SongID"),
-                        SongTitle = rdr.GetString("SongTitle"),
-                        ReleaseDate = rdr.GetDateTime("ReleaseDate")
-                    });
+                        _songList.Add(new Song
+                        {
+                            SongID = rdr.GetInt32("SongID"),
+                            SongTitle = rdr.GetString("SongTitle"),
+                            ReleaseDate = rdr.GetDateTime("ReleaseDate")
+                        });
+                    }
                 }
+                catch (Exception)
+                {
+                    throw;
+                }                
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                con.Close();
-            }
+                
             return _songList;
         }
 

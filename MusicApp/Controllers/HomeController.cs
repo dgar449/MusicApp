@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicApp.Models;
 using System.Diagnostics;
+using MusicApp.Data;
 
 namespace MusicApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ISongRepo _songRepo;
+        public DataClass dc= new DataClass();
 
         public HomeController(ISongRepo songRepo)
         {
@@ -25,8 +27,8 @@ namespace MusicApp.Controllers
             ViewBag.Song = model;
             ViewBag.PageTitle = "Song List";
             return View(); 
-        }*/
-        //[Route("Home/SongList/{id?}")]
+        }
+        //[Route("Home/SongList/{id?}")]*/
         public ViewResult SongList(int id)
         {
             Song model = _songRepo.GetSongs(id);
@@ -57,9 +59,9 @@ namespace MusicApp.Controllers
             var model = _songRepo.Delete(id);
             return RedirectToAction("Index");
         }
-        public RedirectToActionResult Update(int id,string st,string rd)
+       public RedirectToActionResult Update(Song song)
         {
-            var model = _songRepo.Update(id,st,rd);
+            var model = _songRepo.Update(song);
             return RedirectToAction("Index");
         }
 

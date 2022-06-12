@@ -1,4 +1,5 @@
 ﻿@using MusicApp.Controllers;
+@using MusicApp.Data;
 @model Song
 
 @{
@@ -6,11 +7,18 @@
 }
 <form asp-controller="Home" asp-action="Create" method="post">
     
-    <label asp-for=SongTitle></label>
+    <label asp-for=SongTitle>Enter Song Title</label>
     <input asp-for=SongTitle />
 
-    <label asp-for=ReleaseDate></label>
+    <label asp-for=ReleaseDate>Choose Release Date</label>
     <input asp-for=ReleaseDate />
+    <label asp-for=TrackLength>Enter track length</label>
+    <input asp-for=TrackLength />
+    <input asp-for=AlbumID />
+    <input asp-for=ArtistID />
+    <input asp-for=GenreID />
+
+
     <div>
         <button type="submit">Create</button>
     </div>

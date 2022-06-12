@@ -1,4 +1,5 @@
 ﻿@using MusicApp.Controllers;
+@using MusicApp.Data;
 @using System.Web;
 @model Song
 <html>
@@ -19,12 +20,25 @@
    <form asp-controller="Home" asp-action="Edit" method="post">
     
     <label asp-for=SongTitle></label>
-    <input asp-for=SongTitle name="st" />
+    <input asp-for=SongTitle />
 
     <label asp-for=ReleaseDate></label>
-    <input asp-for=ReleaseDate name="rd" />
+    <input asp-for=ReleaseDate />
+
+    <label asp-for=TrackLength></label>
+    <input asp-for=TrackLength />
+
+    <label asp-for=GenreID></label>
+    <input asp-for=GenreID />
+
+    <label asp-for=AlbumID></label>
+    <input asp-for=AlbumID  />
+    <label asp-for=ArtistID></label>
+    <input asp-for=ArtistID />
+    <label asp-for=SongID></label>
+    <input asp-for=SongID />
     <div>
-        <button type="submit" asp-action="Update" asp-route-id="@ViewBag.Song.SongID" asp-route-st="@ViewData["st"]" asp-route-rd="@ViewData["rd"]">Update Song Details</button>
+        <button type="submit" asp-action="Update" asp-route-id="@ViewBag.Song.SongID"> <!--asp-route-st="ViewData["st"]" asp-route-rd="ViewData["rd"]"-->Update Song Details</button>
     </div>
     </form>
 </body>

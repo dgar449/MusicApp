@@ -9,7 +9,7 @@ var configuration = new ConfigurationBuilder()
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<ISongRepo, SongRepo>();
+builder.Services.AddScoped<ISongRepo, DbSongRepo>();
 builder.Services.AddDbContextPool<AppDbContext>(
     options => options.UseSqlServer(configuration.GetConnectionString("DBConn")));
 

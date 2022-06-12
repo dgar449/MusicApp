@@ -13,6 +13,7 @@ namespace MusicApp.Models
 
         }
 
-        public DbSet<Song> Songs { get; set; }
+        public DbSet<Song> Song { get; set; }
+        public DbSet<Actor> Actors { get; set; }
     }
 }

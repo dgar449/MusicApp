@@ -1,4 +1,5 @@
 ﻿@using MusicApp.Controllers;
+@using MusicApp.Data;
 @model IEnumerable<Song>;
 
 @{ 
@@ -7,16 +8,16 @@
 }
     
     <div>
-        @foreach (var song in Model)
+        @foreach (var Songs in Model)
         {           
                 <div >
-                    <h3>@song.SongTitle</h3>
+                    <h3>@Songs.SongTitle</h3>
                 </div>
                 <img class="album-art" src="~/images/coldplay.png" max-width="50px" height="auto" />
                 <div>
-                    @Html.ActionLink("View","SongList",new { id = song.SongID })
-                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@song.SongID">Edit</a>
-                    <a asp-controller="Home" asp-action="Delete" asp-route-id="@song.SongID">Delete</a>
+                    @Html.ActionLink("View","SongList",new { id = Songs.SongID })
+                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@Songs.SongID">Edit</a>
+                    <a asp-controller="Home" asp-action="Delete" asp-route-id="@Songs.SongID">Delete</a>
                 </div>
         }
         </div>
