@@ -4,7 +4,7 @@
     {
         public int SongID { get; set; }
         public string? SongTitle { get; set; }
-        public int Artist { get; set; }
+        public int ArtistID { get; set; }
         public int AlbumID { get; set; }
         public DateTime? ReleaseDate { get; set; }
         public int TrackLength { get; set; }
