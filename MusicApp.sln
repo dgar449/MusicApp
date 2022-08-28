@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp", "MusicApp\MusicApp.csproj", "{B637222D-EC99-47FE-99BC-96C512E85245}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Data", "MusicApp.Data\MusicApp.Data.csproj", "{559F1148-7F08-45BC-89E2-93A9CD90E54A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Data", "MusicApp.Data\MusicApp.Data.csproj", "{559F1148-7F08-45BC-89E2-93A9CD90E54A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

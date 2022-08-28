@@ -1,0 +1,29 @@
+﻿@using MusicApp.Controllers;
+@using MusicApp.Data.ViewModels;
+@using System.Web;
+@model IEnumerable<AlbumListVm>;
+
+@{
+    ViewBag.Title = "AlbumResults"; 
+}
+@*
+    <form asp-controller="Home" asp-action="AlbumResults" method="get">
+    
+   <label>Search</label>
+    <input  type="text" name="sq" />
+
+    <div>
+        <button type="submit" asp-action="Search" > Search </button>
+    </div>
+    
+</form>*@
+    <div>
+        @foreach (var AlbumListVm in Model)
+        { 
+            <div>
+                    <h3>@AlbumListVm.AlbumName</h3>
+                    </div>
+                <img class="album-art" src="~/images/coldplay.png" max-width="50px" height="auto" alt="aa" />
+               
+        }
+        </div>

@@ -1,0 +1,19 @@
+﻿@using MusicApp.Controllers;
+@using MusicApp.Data;
+@using System.Web;
+@model IEnumerable<Artist>;
+<body>
+    <div>
+    <form asp-controller="Home" asp-action="AlbumResults" method="get" >
+    <div>
+        <select name="sq" id="ddl" asp-items="@ViewBag.ArtistName">
+            <option value="">--Select--</option>
+        </select>
+    </div>
+    <div>
+        <button type="submit" > Find Button </button>
+    </div>
+    </form>
+    </div>
+
+    </body>

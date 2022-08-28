@@ -1,0 +1,18 @@
+﻿@using MusicApp.Data.ViewModels;
+@model IEnumerable<RankSongCountVm>;
+
+@{
+    ViewBag.Title = "RankSongCount"; 
+}
+<div>
+        @foreach (var RankSongCountVm in Model)
+        {           
+                
+                <div>
+                    <h3>@RankSongCountVm.ArtistName </h3>
+                    
+                    <h3>@RankSongCountVm.SongCount</h3>
+                    </div>
+               
+        }
+        </div>

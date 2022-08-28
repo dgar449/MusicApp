@@ -14,6 +14,9 @@ namespace MusicApp.Models
         }
 
         public DbSet<Song> Song { get; set; }
-        public DbSet<Actor> Actors { get; set; }
+        public DbSet<Album> Album { get; set; }
+        public DbSet<Artist> Artist { get; set; }
+        public DbSet<Genre> Genre { get; set; }
+
     }
 }

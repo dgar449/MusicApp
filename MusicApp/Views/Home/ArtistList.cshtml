@@ -1,0 +1,33 @@
+﻿@using MusicApp.Controllers;
+@using MusicApp.Data;
+@using System.Web;
+@model IEnumerable<Artist>;
+@*@model IEnumerable<Song>;*@
+<body>
+    <div>
+    <form asp-controller="Home" asp-action="Search" method="get" >
+    <div>
+        <select name="sq" id="ddl" asp-items="@ViewBag.ArtistName">
+            <option value="">--Select--</option>
+        </select>
+    </div>
+    <div>
+        <button type="submit" > Find Button </button>
+    </div>
+    </form>
+    </div>
+   @* <div>
+    @foreach (var Songs in Model)
+        {           
+                <div >
+                    <h3>@Songs.SongTitle</h3>
+                </div>
+                <img class="album-art" src="~/images/coldplay.png" max-width="50px" height="auto" />
+                <div>
+                    @Html.ActionLink("View","SongList",new { id = Songs.SongID })
+                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@Songs.SongID">Edit</a>
+                    <a asp-controller="Home" asp-action="Delete" asp-route-id="@Songs.SongID">Delete</a>
+                </div>
+        }
+        </div>*@
+    </body>

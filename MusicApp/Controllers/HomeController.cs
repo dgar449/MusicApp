@@ -2,6 +2,8 @@
 using MusicApp.Models;
 using System.Diagnostics;
 using MusicApp.Data;
+using MusicApp.Data.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MusicApp.Controllers
 {
@@ -20,15 +22,38 @@ namespace MusicApp.Controllers
             var model=_songRepo.GetAllSongs();
             return View(model); 
         }
-       /* [HttpGet]
-        public ViewResult SongList()
+        //public ViewResult Index1()
+        //{
+        //    var model = _songRepo.GetAllSongs();
+        //    return View(model);
+        //}
+        public ViewResult ArtistList()
         {
-            Song model = _songRepo.GetSongs(1);
-            ViewBag.Song = model;
-            ViewBag.PageTitle = "Song List";
-            return View(); 
+            var model= _songRepo.GetArtists().ToList();
+            ViewBag.ArtistName = new SelectList(model, "ArtistName", "ArtistName");
+            //ViewBag.ArtistName=model;
+            return View(model);
         }
-        //[Route("Home/SongList/{id?}")]*/
+        public ViewResult AlbumList()
+        {
+            var model = _songRepo.GetAlbum().ToList();
+            ViewBag.ArtistName = new SelectList(model, "ArtistID", "ArtistName");
+            return View(model);
+        }
+        public ViewResult AlbumResults(int sq)
+        {
+            var model = _songRepo.AllAlbums(sq);
+            return View(model);
+        }
+        /* [HttpGet]
+         public ViewResult SongList()
+         {
+             Song model = _songRepo.GetSongs(1);
+             ViewBag.Song = model;
+             ViewBag.PageTitle = "Song List";
+             return View(); 
+         }
+         //[Route("Home/SongList/{id?}")]*/
         public ViewResult SongList(int id)
         {
             Song model = _songRepo.GetSongs(id);
@@ -63,6 +88,18 @@ namespace MusicApp.Controllers
         {
             var model = _songRepo.Update(song);
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ViewResult Search(string sq)
+        {
+            var model = _songRepo.Search(sq);
+            return View(model);
+        }
+
+        public ViewResult RankSongCount()
+        {
+            var model = _songRepo.RankSongsTotal();
+            return View(model);
         }
 
         public IActionResult Privacy()

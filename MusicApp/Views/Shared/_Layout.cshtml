@@ -1,12 +1,15 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MusicApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MusicApp.styles.css" asp-append-version="true" />
+
 </head>
 <body>
     <header>
@@ -25,8 +28,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Create">Create</a>
+                        </li>                        
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ArtistList">Artists</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="SongList">Songs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AlbumList">Find Albums</a>
+                        </li>
                     </ul>
                 </div>
+            </div>
+            <div>
+                 <form asp-controller="Home" asp-action="Search" method="get" class="navbar-form">
+                    
+                     <div class="form-outline">
+                         <input  type="text" name="sq" class="form-control" placeholder="Search" />                     
+                         <button type="submit" name="Search" asp-action="Search" class="btn btn-primary">
+                            <i class="fas fa-search"></i> 
+                         </button>
+                     </div>
+                </form>
             </div>
         </nav>
     </header>
