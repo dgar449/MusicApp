@@ -102,6 +102,21 @@ namespace MusicApp.Controllers
             return View(model);
         }
 
+        public ViewResult CareerLength()
+        {
+            var model = _songRepo.CareerAge();
+            return View(model);
+        }
+        public ViewResult CareerDuration()
+        {
+            var model = _songRepo.CareerDuration();
+            return View(model);
+        }
+        public ViewResult GenrePopularity()
+        {
+            var model = _songRepo.GenrePopularity();
+            return View(model);
+        }
         public IActionResult Privacy()
         {
             return View();

@@ -1,5 +1,5 @@
 ﻿@using MusicApp.Data.ViewModels;
-@model IEnumerable<RankSongCountVm>;
+@model IEnumerable<GenrePopularityVm>;
 
 @{
     ViewBag.Title = "RankSongCount"; 
@@ -9,8 +9,8 @@
         {           
                 
                 <div>
-                    <h3>ArtistName:@RankSongCountVm.ArtistName </h3>                    
-                    <h3>No of Songs:@RankSongCountVm.SongCount</h3>
+                    <h3>Genre:@RankSongCountVm.GenreType </h3>                    
+                    <h3>No of Songs:@RankSongCountVm.GenreCount</h3>
                     <h3>Rank:@RankSongCountVm.Rank</h3>
                 </div>
                

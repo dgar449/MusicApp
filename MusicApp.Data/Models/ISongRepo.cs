@@ -14,6 +14,9 @@ namespace MusicApp.Models
         public IEnumerable<SearchSongVm> Search(string sq);
 
         public IEnumerable<RankSongCountVm> RankSongsTotal();
+        public IEnumerable<MusicCareer> CareerAge();
+        public IEnumerable<MusicCareer> CareerDuration();
+        public IEnumerable<GenrePopularityVm> GenrePopularity();
 
         public IEnumerable<AlbumListVm> AllAlbums(int sq);
 
