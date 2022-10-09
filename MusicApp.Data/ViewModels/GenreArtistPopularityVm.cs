@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace MusicApp.Data.ViewModels
 {
-    public class RankSongCountVm
+    public class GenreArtistPopularityVm
     {
+        public int GenreID { get; set; }
+        public string? GenreType { get; set; }
         public int SongID { get; set; }
-        public int ArtistID { get; set; }
-
-        public string? ArtistName { get; set; }
-        public int SongCount { get; set; }
-
         public int Rank { get; set; }
+        public int GenreCount { get; set; }
+        public int ArtistID { get; set; }
+        public string? ArtistName { get; set; }
+
+
     }
 }

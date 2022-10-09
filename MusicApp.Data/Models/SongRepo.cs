@@ -63,9 +63,9 @@ namespace MusicApp.Models
                 cmd.ExecuteNonQuery();
                 song.SongID = id;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -98,9 +98,9 @@ namespace MusicApp.Models
                         del = true;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
-                    throw ex;
+                    throw;
                 }
                 finally
                 {
@@ -133,9 +133,9 @@ namespace MusicApp.Models
                     song = GetSongs(id);
                     updt = true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    throw ;
                 }
                 finally
                 {

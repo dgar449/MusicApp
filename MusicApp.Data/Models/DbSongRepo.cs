@@ -25,9 +25,9 @@ namespace MusicApp.Models
             return song;
         }
 
-        public Song Delete(int id)
+        public Song? Delete(int id)
         {
-            Song song = context.Song.Find(id);
+            Song? song = context.Song.Find(id);
             if(song != null)
             {
                 context.Song.Remove(song);
@@ -55,12 +55,12 @@ namespace MusicApp.Models
 
         public Song Update(Song songUpdates)
         {
-            var song=context.Song.Attach(songUpdates);
+            var song = context.Song.Attach(songUpdates);
             song.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
             return songUpdates;
         }
-        public IEnumerable<SearchSongVm> Search(string query)
+        public async Task<IEnumerable<SearchSongVm>> Search(string query)
         {
             // LINQ
             //var song = from x in context.Song
@@ -73,7 +73,7 @@ namespace MusicApp.Models
 
 
             // Lambda
-            var song = context.Song
+            var song = await context.Song
                 .Include(x => x.Album)
                 .Include(x => x.Artist)
                 .Where(x => x.Artist.ArtistName.Contains(query)
@@ -86,7 +86,7 @@ namespace MusicApp.Models
                     SongID = x.SongID,
                     TrackLength = x.TrackLength,
                     SongTitle = x.SongTitle
-                });
+                }).ToListAsync();
 
             return song;
         }
@@ -95,45 +95,40 @@ namespace MusicApp.Models
             return context.Artist;
 
         }
-        public IEnumerable<AlbumListVm> AllAlbums(int query)
-        {
-            //var albumCount = context.Album
-            //    .GroupBy(x => x.ArtistID, (key, value) => new
-            //    {
-            //        ArtistID = key,
-            //        Count = value.Count()
-            //    });
 
-            //var song = context.Artist
-            //.Where(x => albumCount.Any(y => y.ArtistID == x.ArtistID))
-            //.Select(x => new AlbumListVm()
-            //{
-            //    ArtistID = x.ArtistID,
-            //    AlbumName = x.ArtistName,
-            //    Count = albumCount.FirstOrDefault(y => y.ArtistID == x.ArtistID).Count
-            //});
-            var song = context.Album
-             //   .Include(x => x.Artist)
+       
+        public async Task<IEnumerable<AlbumListVm>> AllAlbums(int query)
+        {
+            var song = await context.Album
                 .Where(x => x.ArtistID==query)
                 .Select(x => new AlbumListVm()
                 {
                     AlbumName = x.AlbumName
-                });
+                }).ToListAsync();
             return song;
         }
 
-         public IEnumerable<RankSongCountVm> RankSongsTotal()
+         public async Task<IEnumerable<RankSongCountVm>> RankSongsTotal()
          {
+
             //Groups By Count of ArtistID in the Song Table
-            var song = context.Song
-                .GroupBy(x=>x.ArtistID , (key, value) => new RankSongCountVm()
-                {
-                    ArtistID = key,
-                    SongCount = value.Count()
-                });
+            var song = await context.Song
+                    .GroupBy(x => x.ArtistID, (key, value) => new RankSongCountVm()
+                    {
+                        ArtistID = key,
+                        SongCount = value.Count()
+                    }).ToListAsync();
             //Uses the results from the var song and adds artist name to it using FK ArtistID found in Song table and Artist table
-            var artist = context.Artist
-                .Where(x => song.Any(y => y.ArtistID == x.ArtistID))                
+            var artistList = new List<Artist>();
+            foreach (var s in song)
+            {
+                var artist = await context.Artist.FirstOrDefaultAsync(x => x.ArtistID == s.ArtistID);
+                if (artist != null)
+                {
+                    artistList.Add(artist);
+                }
+            }
+            var artists = artistList
                 .Select(x => new RankSongCountVm()
                 {
                     ArtistID = x.ArtistID,
@@ -141,33 +136,34 @@ namespace MusicApp.Models
                     SongCount = song.FirstOrDefault(y => y.ArtistID == x.ArtistID).SongCount
                 }).ToList();
             //Ranks the results of var artist based on descending order and adds a rank to it (foreach ish)
-            var rankings = artist.OrderByDescending(x => x.SongCount).GroupBy(x => x.SongCount)
+            var rankings = artists.OrderByDescending(x => x.SongCount).GroupBy(x => x.SongCount)
                 .SelectMany((g, i) => g.Select(e => new RankSongCountVm()
                 {
-                    ArtistName= e.ArtistName,
+                    ArtistName = e.ArtistName,
                     SongCount = e.SongCount,
                     Rank = i + 1
                 }));
+
             return rankings;
-         }
-        public IEnumerable<MusicCareer> CareerAge()
+        }
+        public async Task<IEnumerable<MusicCareer>> CareerAge()
         {
             //
-            var song = context.Song
+            var song = await context.Song
                 .GroupBy(x => x.ArtistID, (key, value) => new MusicCareer()
                 {
                     ArtistID = key,
                     Oldest = (DateTime)value.Min(y=> y.ReleaseDate)
-                });
+                }).ToListAsync();
             //
-            var artist = context.Artist
+            var artist = await context.Artist
                 .Where(x => song.Any(y => y.ArtistID == x.ArtistID))
                 .Select(x => new MusicCareer()
                 {
                     ArtistID = x.ArtistID,
                     ArtistName = x.ArtistName,
-                    ReleaseDate = song.FirstOrDefault(y => y.ArtistID == x.ArtistID).Oldest
-                }).ToList();
+                    ReleaseDate = song.FirstOrDefault(y => y.ArtistID == x.ArtistID).Oldest.GetValueOrDefault()
+                }).ToListAsync();
 
             var careerAge = artist.OrderBy(x => x.ReleaseDate).GroupBy(x => x.ReleaseDate)
              .SelectMany((g, i) => g.Select(e => new MusicCareer()
@@ -178,25 +174,25 @@ namespace MusicApp.Models
              }));
             return careerAge;
         }
-        public IEnumerable<MusicCareer> CareerDuration()
+        public async Task<IEnumerable<MusicCareer>> CareerDuration()
         {
             //
-            var song = context.Song
+            var song = await context.Song
                 .GroupBy(x => x.ArtistID, (key, value) => new MusicCareer()
                 {
                     ArtistID = key,
                     Oldest = (DateTime)value.Min(y => y.ReleaseDate),
                     Newest = (DateTime)value.Max(y => y.ReleaseDate)
-                });
+                }).ToListAsync();
             //
-            var artist = context.Artist
+            var artist = await context.Artist
                 .Where(x => song.Any(y => y.ArtistID == x.ArtistID))
                 .Select(x => new MusicCareer()
                 {
                     ArtistID = x.ArtistID,
                     ArtistName = x.ArtistName,
-                    CareerLength = (song.FirstOrDefault(y => y.ArtistID == x.ArtistID).Newest).Date - (song.FirstOrDefault(z => z.ArtistID == x.ArtistID).Oldest).Date
-                }).ToList();
+                    CareerLength = song.FirstOrDefault(y => y.ArtistID == x.ArtistID).Newest.GetValueOrDefault().Date - (song.FirstOrDefault(z => z.ArtistID == x.ArtistID).Oldest).GetValueOrDefault().Date
+                }).ToListAsync();
 
             var careerAge = artist.OrderByDescending(x => x.CareerLength).GroupBy(x => x.CareerLength)
              .SelectMany((g, i) => g.Select(e => new MusicCareer()
@@ -207,26 +203,68 @@ namespace MusicApp.Models
              }));
             return careerAge;
         }
-        public IEnumerable<GenrePopularityVm> GenrePopularity()
+        public async Task<IEnumerable<MusicCareer>> CareerAverage()
         {
             //
-            var song = context.Song
+            var song = await context.Song
+                .GroupBy(x => x.ArtistID, (key, value) => new MusicCareer()
+                {
+                    ArtistID = key,
+                    Oldest = value.Min(y => y.ReleaseDate),
+                    Newest = value.Max(y => y.ReleaseDate),
+                    SongCount = value.Count()
+                }).ToListAsync();
+            //
+            var artist = await context.Artist
+                .Where(x => song.Any(y => y.ArtistID == x.ArtistID))
+                .Select(x => new MusicCareer()
+                {
+                    ArtistID = x.ArtistID,
+                    ArtistName = x.ArtistName,
+                    CareerLengthYears = song.FirstOrDefault(y => y.ArtistID == x.ArtistID).Newest.GetValueOrDefault().Date.Year
+                    - (song.FirstOrDefault(z => z.ArtistID == x.ArtistID).Oldest).GetValueOrDefault().Date.Year,
+                    SongCount = song.FirstOrDefault(a => a.ArtistID == x.ArtistID).SongCount,
+                }).ToListAsync();
+
+            var career = artist.Where(x => artist.Any(y => y.ArtistID == x.ArtistID))
+                .Select(x => new MusicCareer()
+                {
+                    ArtistID = x.ArtistID,
+                    ArtistName = x.ArtistName,
+                    CareerLengthYears = x.CareerLengthYears,
+                    CareerDays = x.CareerLengthYears/x.SongCount
+                }).ToList();
+
+            var rank = career.OrderBy(x => x.CareerDays).GroupBy(x => x.CareerDays)
+             .SelectMany((g, i) => g.Select(e => new MusicCareer()
+             {
+                 ArtistName = e.ArtistName,
+                 CareerLengthYears =e.CareerLengthYears,
+                 CareerDays= e.CareerDays,
+                 Rank = i + 1
+             }));
+            return rank;
+        }
+        public async Task<IEnumerable<GenrePopularityVm>> GenrePopularity()
+        {
+            //
+            var song = await context.Song
                 .GroupBy(x => x.GenreID, (key, value) => new GenrePopularityVm()
                 {
                     GenreID = key,
                     GenreCount = value.Count()
-                });
+                }).ToListAsync();
             //
-            var genre = context.Genre
+            var genre = await context.Genre
                 .Where(x => song.Any(y => y.GenreID == x.GenreID))
                 .Select(x => new GenrePopularityVm()
                 {
                     GenreID = x.GenreID,
                     GenreType = x.GenreType,
                     GenreCount = song.FirstOrDefault(y => y.GenreID == x.GenreID).GenreCount
-                }).ToList();
+                }).ToListAsync();
             //
-            var rankings = genre.OrderByDescending(x => x.GenreCount).GroupBy(x => x.GenreCount)
+            var rankings = genre.OrderBy(x => x.GenreCount).GroupBy(x => x.GenreCount)
                 .SelectMany((g, i) => g.Select(e => new GenrePopularityVm()
                 {
                     GenreType = e.GenreType,
@@ -234,6 +272,35 @@ namespace MusicApp.Models
                     Rank = i + 1
                 }));
             return rankings;
+        }
+        public async Task<IEnumerable<GenreArtistPopularityVm>> GenreArtistPopularity()
+        {
+            //
+            var song = await context.Song
+                .GroupBy(x => new { x.GenreID, x.ArtistID }, (key, value) => new  
+                {
+                    GenreID = key.GenreID,
+                    ArtistID = key.ArtistID,
+                    GenreCount = value.Count()
+                }).ToListAsync();        
+
+            var top2PerGenre = song.GroupBy(x => x.GenreID)
+                .SelectMany(x => x.OrderByDescending(x => x.GenreCount)
+                    .Take(2));
+
+            var results = new List<GenreArtistPopularityVm>();
+            foreach(var obj in top2PerGenre)
+            {
+                var result = new GenreArtistPopularityVm
+                {
+                    GenreType = context.Genre.FirstOrDefault(x => x.GenreID == obj.GenreID).GenreType,
+                    ArtistName = context.Artist.FirstOrDefault(x => x.ArtistID == obj.ArtistID).ArtistName,
+                    GenreCount = obj.GenreCount
+                };
+
+                results.Add(result);
+            }
+            return results;
         }
     }
 }

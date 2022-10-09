@@ -2,16 +2,16 @@
 @model IEnumerable<GenrePopularityVm>;
 
 @{
-    ViewBag.Title = "RankSongCount"; 
+    ViewBag.Title = "GenrePopularity"; 
 }
 <div>
-        @foreach (var RankSongCountVm in Model)
+        @foreach (var GenrePopularity in Model)
         {           
                 
                 <div>
-                    <h3>Genre:@RankSongCountVm.GenreType </h3>                    
-                    <h3>No of Songs:@RankSongCountVm.GenreCount</h3>
-                    <h3>Rank:@RankSongCountVm.Rank</h3>
+                    <h3>Genre:@GenrePopularity.GenreType </h3>                    
+                    <h3>No of Songs:@GenrePopularity.GenreCount</h3>
+                    <h3>Rank:@GenrePopularity.Rank</h3>
                 </div>
                
         }

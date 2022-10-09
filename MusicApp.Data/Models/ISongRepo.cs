@@ -5,24 +5,26 @@ namespace MusicApp.Models
 {
     public interface ISongRepo
     {
-        public IEnumerable<Song> GetAllSongs();
-        public Song GetSongs(int Id);
-        public Song Add(Song song);
-        public Song Update(Song song);
+         IEnumerable<Song> GetAllSongs();
+         Song GetSongs(int Id);
+         Song Add(Song song);
+         Song Update(Song song);
 
-        public Song Delete(int id);
-        public IEnumerable<SearchSongVm> Search(string sq);
+         Song? Delete(int id);
+         Task<IEnumerable<SearchSongVm>> Search(string sq);
 
-        public IEnumerable<RankSongCountVm> RankSongsTotal();
-        public IEnumerable<MusicCareer> CareerAge();
-        public IEnumerable<MusicCareer> CareerDuration();
-        public IEnumerable<GenrePopularityVm> GenrePopularity();
+         Task<IEnumerable<RankSongCountVm>> RankSongsTotal();
+         Task<IEnumerable<MusicCareer>> CareerAge();
+         Task<IEnumerable<MusicCareer>> CareerDuration();
+         Task<IEnumerable<MusicCareer>> CareerAverage();
+         Task<IEnumerable<GenrePopularityVm>> GenrePopularity();
 
-        public IEnumerable<AlbumListVm> AllAlbums(int sq);
+         Task<IEnumerable<GenreArtistPopularityVm>> GenreArtistPopularity();
+         Task<IEnumerable<AlbumListVm>> AllAlbums(int sq);
 
-        public IEnumerable<Artist> GetArtists();
-        public IEnumerable<Artist> GetAlbum();
-        // public AppDbContext ArtistList();
+         IEnumerable<Artist> GetArtists();
+         IEnumerable<Artist> GetAlbum();
+        //  AppDbContext ArtistList();
         // bool Update(int id, string s, string r);
         // bool Delete(int id);
     }

@@ -1,0 +1,19 @@
+﻿@using MusicApp.Data.ViewModels;
+@model IEnumerable<MusicCareer>;
+
+@{
+    ViewBag.Title = "Career Average"; 
+}
+<div>
+        @foreach (var CareerAverage in Model)
+        {           
+                
+                <div>
+                    <h3>ArtistName:@CareerAverage.ArtistName </h3>
+                    <h3>CareerLength:@CareerAverage.CareerLengthYears years between first and latest song</h3>
+                    <h3>CareerDuration:@CareerAverage.CareerDays songs per year</h3>
+                    <h3>Rank:@CareerAverage.Rank</h3>
+                </div>
+               
+        }
+        </div>

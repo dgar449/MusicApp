@@ -96,9 +96,9 @@ namespace MusicApp.Controllers
             return View(model);
         }
 
-        public ViewResult RankSongCount()
+        public async Task<ViewResult> RankSongCount()
         {
-            var model = _songRepo.RankSongsTotal();
+            var model = await _songRepo.RankSongsTotal();
             return View(model);
         }
 
@@ -112,9 +112,19 @@ namespace MusicApp.Controllers
             var model = _songRepo.CareerDuration();
             return View(model);
         }
+        public ViewResult CareerAverage()
+        {
+            var model = _songRepo.CareerAverage();
+            return View(model);
+        }
         public ViewResult GenrePopularity()
         {
             var model = _songRepo.GenrePopularity();
+            return View(model);
+        }
+        public async Task<ViewResult> GenreArtistPopularity()
+        {
+            var model = await _songRepo.GenreArtistPopularity();
             return View(model);
         }
         public IActionResult Privacy()
